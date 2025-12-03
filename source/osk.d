@@ -38,7 +38,9 @@ enum OSKTheme {
     Grey,
     NeoBlue,
     ColorClassic,
-    ColorGreen
+    ColorGreen,
+    ColorClassicAngled,
+    ColorGreenAngled
 }
 
 enum OSKLayout {
@@ -67,6 +69,7 @@ const float KEYBOARD_HEIGHT = 5;
 const float M_PI = 3.14159265358979323846;
 
 OSKKeyType[Scancode] KEY_TYPES;
+OSKKeyType[Scancode] KEY_TYPES_ANGLED;
 
 HFONT[] WIN_FONTS;
 cairo_font_face_t*[] CAIRO_FONTS;
@@ -140,6 +143,14 @@ void initOsk(JSONValue oskJson) {
     KEY_TYPES[Scancode(0x33, false)] = OSKKeyType.MIDDLE;
     KEY_TYPES[Scancode(0x34, false)] = OSKKeyType.RING;
     KEY_TYPES[Scancode(0x35, false)] = OSKKeyType.PINKY;
+
+    KEY_TYPES_ANGLED = KEY_TYPES.dup;
+    KEY_TYPES_ANGLED[Scancode(0x56, false)] = OSKKeyType.PINKY;
+    KEY_TYPES_ANGLED[Scancode(0x2C, false)] = OSKKeyType.RING;
+    KEY_TYPES_ANGLED[Scancode(0x2D, false)] = OSKKeyType.MIDDLE;
+    KEY_TYPES_ANGLED[Scancode(0x2E, false)] = OSKKeyType.POINTER;
+    KEY_TYPES_ANGLED[Scancode(0x2F, false)] = OSKKeyType.POINTER;
+    KEY_TYPES_ANGLED[Scancode(0x30, false)] = OSKKeyType.OTHER;
 }
 
 cairo_font_face_t* getFontFaceForChar(HDC hdc, string c) {
@@ -312,6 +323,34 @@ void drawOsk(HWND hwnd, NeoLayout *layout, uint layer, bool capslock) {
             case OSKTheme.ColorGreen:
             {
                 auto keyType = KEY_TYPES.get(scan, OSKKeyType.OTHER);
+            
+                switch (keyType) {
+                    case OSKKeyType.OTHER: return COLOR_NEOVARS_GREY;
+                    case OSKKeyType.HOME: return COLOR_GREEN_LIGHT_GREEN;
+                    case OSKKeyType.POINTER: return COLOR_GREEN_GREEN;
+                    case OSKKeyType.MIDDLE: return COLOR_GREEN_BLUEISH_GREEN;
+                    case OSKKeyType.RING: return COLOR_GREEN_GREENISH_BLUE;
+                    case OSKKeyType.PINKY: return COLOR_GREEN_LIGHT_BLUE;
+                    default: return COLOR_NEOVARS_GREY;
+                }
+            }
+            case OSKTheme.ColorClassicAngled:
+            {
+                auto keyType = KEY_TYPES_ANGLED.get(scan, OSKKeyType.OTHER);
+            
+                switch (keyType) {
+                    case OSKKeyType.OTHER: return COLOR_NEOVARS_GREY;
+                    case OSKKeyType.HOME: return COLOR_NEOVARS_LIGHT_BLUE;
+                    case OSKKeyType.POINTER: return COLOR_NEOVARS_BLUE;
+                    case OSKKeyType.MIDDLE: return COLOR_NEOVARS_GREEN;
+                    case OSKKeyType.RING: return COLOR_NEOVARS_RED;
+                    case OSKKeyType.PINKY: return COLOR_NEOVARS_YELLOW;
+                    default: return COLOR_NEOVARS_GREY;
+                }
+            }
+            case OSKTheme.ColorGreenAngled:
+            {
+                auto keyType = KEY_TYPES_ANGLED.get(scan, OSKKeyType.OTHER);
             
                 switch (keyType) {
                     case OSKKeyType.OTHER: return COLOR_NEOVARS_GREY;
