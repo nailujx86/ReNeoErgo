@@ -243,8 +243,12 @@ void drawOsk(HWND hwnd, NeoLayout *layout, uint layer, bool capslock) {
     cairo_pattern_t *TEXT_COLOR;
 
     switch (configOskTheme) {
-        case OSKTheme.ColorClassic: TEXT_COLOR = cairo_pattern_create_rgba(0.05, 0.05, 0.05, 1.0); break;
-        case OSKTheme.ColorGreen: TEXT_COLOR = cairo_pattern_create_rgba(0.05, 0.05, 0.05, 1.0); break;
+        case OSKTheme.ColorClassic:
+        case OSKTheme.ColorClassicAngled:
+            TEXT_COLOR = cairo_pattern_create_rgba(0.05, 0.05, 0.05, 1.0); break;
+        case OSKTheme.ColorGreen:
+        case OSKTheme.ColorGreenAngled:
+            TEXT_COLOR = cairo_pattern_create_rgba(0.05, 0.05, 0.05, 1.0); break;
         default: TEXT_COLOR = cairo_pattern_create_rgba(0.95, 0.95, 0.95, 1.0);
     }
 

@@ -295,7 +295,7 @@
             }
         },
         {
-            "name": "NeoQwertzErgi",
+            "name": "NeoQwertzAngled",
             "dllName": "kbdgr2.dll",
             "modifiers": {
                 "2A":  "LShift",
